@@ -1,4 +1,3 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
 /**
  * نظام شركة SKY - المحرك البرمجي الرئيسي لإدارة الحسابات والأقساط والخزينة
  * المطور: Khalifa (ADMIN)
