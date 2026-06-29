@@ -9,6 +9,7 @@
   <!-- Tailwind config for Arabic Cairo Font and colors -->
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
@@ -16,6 +17,7 @@
           },
           colors: {
             skyDark: {
+              950: '#020617',
               900: '#0f172a',
               800: '#1e293b',
               700: '#334155',
@@ -29,12 +31,140 @@
       }
     }
   </script>
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="styles.css">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Embedded Styles -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
+    
+    :root {
+      --font-family: 'Cairo', sans-serif;
+    }
+    
+    body {
+      font-family: var(--font-family);
+      direction: rtl;
+      overflow-x: hidden;
+    }
+    
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .dark ::-webkit-scrollbar-thumb { background: #475569; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+    /* Glassmorphism */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+    }
+    .dark .glass-card {
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .glass-sidebar {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(16px);
+      border-left: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Animations */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+    .animate-pulse-warning { animation: pulse-ring 2s infinite; }
+    
+    /* Forms */
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      background-color: #ffffff;
+      color: #0f172a;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+    }
+    .dark .form-input {
+      background-color: #0f172a;
+      border-color: #334155;
+      color: #f8fafc;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+    .dark .form-input:focus {
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.4);
+    }
+    
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.5rem;
+    }
+    .dark .form-label {
+      color: #cbd5e1;
+    }
+    
+    /* Timeline */
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      top: 1.25rem;
+      bottom: -1.25rem;
+      right: 1.25rem;
+      width: 2px;
+      background-color: #e2e8f0;
+    }
+    .dark .timeline-item::after { background-color: #334155; }
+    .timeline-item:last-child::after { display: none; }
+    
+    /* GLOBAL DARK MODE OVERRIDES */
+    .dark .text-slate-900, 
+    .dark .text-slate-800, 
+    .dark .text-slate-700 {
+      color: #f8fafc !important;
+    }
+    .dark .text-slate-600, 
+    .dark .text-slate-500 {
+      color: #cbd5e1 !important;
+    }
+    .dark .bg-white {
+      background-color: #0f172a !important;
+    }
+    .dark .bg-slate-50 {
+      background-color: #020617 !important;
+    }
+    .dark .bg-slate-100 {
+      background-color: #1e293b !important;
+    }
+    .dark .border-slate-100, 
+    .dark .border-slate-200 {
+      border-color: #334155 !important;
+    }
+    .dark table th {
+      background-color: #1e293b !important;
+      color: #cbd5e1 !important;
+      border-color: #334155 !important;
+    }
+    .dark table td {
+      border-color: #334155 !important;
+    }
+  </style>
 </head>
 <body class="font-cairo bg-slate-50 text-slate-800 min-h-screen">
 
@@ -159,22 +289,25 @@
   </aside>
 
   <!-- Main Content Area -->
-  <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+  <main class="flex-1 flex flex-col min-w-0 overflow-y-auto dark:bg-skyDark-950 transition-colors duration-300">
     <!-- Top Header -->
-    <header class="p-6 bg-white border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <header class="p-6 bg-white dark:bg-skyDark-900 border-b border-slate-100 dark:border-skyDark-800 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors duration-300">
       <div>
-        <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+        <h2 class="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
           أهلاً بك، <span id="header-username">Khalifa</span> 👋
         </h2>
-        <p id="header-company-subtitle" class="text-sm text-slate-500 mt-1">تتابع الآن لوحة التحكم المالية الموحدة والرقابة الإدارية الذكية لمبيعات التقسيط وحسابات الأمانة لدى شركة SKY.</p>
+        <p id="header-company-subtitle" class="text-sm text-slate-500 dark:text-slate-400 mt-1">تتابع الآن لوحة التحكم المالية الموحدة والرقابة الإدارية الذكية لمبيعات التقسيط وحسابات الأمانة لدى شركة SKY.</p>
       </div>
-      <div class="flex items-center gap-3">
+      <div class="flex flex-wrap items-center gap-3">
+        <button id="theme-toggle-btn" class="p-2 rounded-xl bg-slate-100 dark:bg-skyDark-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-skyDark-700 transition-colors" title="تبديل الوضع الليلي/النهاري">
+          <i id="theme-toggle-icon" class="fa-solid fa-moon"></i>
+        </button>
         <span id="header-sync-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200"></span>
-        <span id="header-role-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
-          <span class="w-2 h-2 rounded-full bg-indigo-600 animate-ping"></span>
+        <span id="header-role-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800/50">
+          <span class="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400 animate-ping"></span>
           الوصول: رئيسي (ADMIN)
         </span>
-        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50">
           أمن النظام ونزاهة التدقيق مفعلان 🔒
         </span>
       </div>
@@ -1259,18 +1392,29 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
-            <label class="form-label">فترة التقسيط (شهور)</label>
-            <input type="number" id="contract-duration" required min="1" max="60" value="12" class="form-input">
-          </div>
-          <div>
-            <label class="form-label">مقدم العقد (دفعة أولى)</label>
-            <input type="number" id="contract-down-payment" required min="0" value="0" class="form-input">
-          </div>
-          <div>
-            <label class="form-label">فترة السماح (أيام)</label>
-            <input type="number" id="contract-grace-days" required min="0" value="5" class="form-input">
+        <div class="p-4 bg-slate-50 dark:bg-skyDark-900/50 rounded-xl border border-slate-100 dark:border-skyDark-800 space-y-4">
+          <span class="text-xs font-bold text-slate-500 dark:text-slate-400">إعدادات الفائدة والمقدم:</span>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <div>
+              <label class="form-label">نوع الزيادة (الفائدة)</label>
+              <select id="contract-interest-type" class="form-input">
+                <option value="none">بدون زيادة (سعر الكاش)</option>
+                <option value="percent">نسبة مئوية (%)</option>
+                <option value="fixed">مبلغ ثابت (ج.م)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">قيمة الزيادة</label>
+              <input type="number" id="contract-interest-value" min="0" step="0.01" value="0" class="form-input" disabled>
+            </div>
+            <div>
+              <label class="form-label">مقدم العقد</label>
+              <input type="number" id="contract-down-payment" required min="0" value="0" class="form-input">
+            </div>
+            <div>
+              <label class="form-label">فترة التقسيط (شهور)</label>
+              <input type="number" id="contract-duration" required min="1" max="60" value="12" class="form-input">
+            </div>
           </div>
         </div>
 
@@ -1291,32 +1435,40 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label class="form-label">المحصل المسند لمتابعة العقد</label>
+            <label class="form-label">المحصل المسند</label>
             <select id="contract-collector-select" required class="form-input">
               <!-- Populated dynamically -->
             </select>
           </div>
           <div>
-            <label class="form-label">تاريخ بدء العقد (أول قسط)</label>
+            <label class="form-label">تاريخ بدء العقد</label>
             <input type="date" id="contract-start-date" required class="form-input">
+          </div>
+          <div>
+            <label class="form-label">فترة السماح (أيام)</label>
+            <input type="number" id="contract-grace-days" required min="0" value="5" class="form-input">
           </div>
         </div>
 
         <!-- Calculations Review Box -->
-        <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 flex justify-between items-center text-indigo-950">
+        <div class="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-indigo-950 dark:text-indigo-100">
           <div>
-            <span class="text-xs font-semibold block text-indigo-700">سعر البيع الإجمالي للجهاز:</span>
-            <span class="text-lg font-bold" id="calc-selling-price">0.00 ج.م</span>
+            <span class="text-xs font-semibold block text-indigo-700 dark:text-indigo-400">سعر الكاش:</span>
+            <span class="text-base font-bold" id="calc-cash-price">0 ج.م</span>
           </div>
           <div>
-            <span class="text-xs font-semibold block text-indigo-700">إجمالي المتبقي للتقسيط:</span>
-            <span class="text-lg font-bold" id="calc-remaining-amount">0.00  ج.م</span>
+            <span class="text-xs font-semibold block text-indigo-700 dark:text-indigo-400">إجمالي بعد الفائدة:</span>
+            <span class="text-base font-bold text-rose-600 dark:text-rose-400" id="calc-total-price">0 ج.م</span>
           </div>
-          <div class="text-left">
-            <span class="text-xs font-semibold block text-indigo-700">القسط الشهري المتوقع:</span>
-            <span class="text-xl font-black text-indigo-600" id="calc-monthly-installment">0.00 ج.م</span>
+          <div>
+            <span class="text-xs font-semibold block text-indigo-700 dark:text-indigo-400">المتبقي للتقسيط:</span>
+            <span class="text-base font-bold text-amber-600 dark:text-amber-400" id="calc-remaining-amount">0 ج.م</span>
+          </div>
+          <div class="text-left border-r border-indigo-200 dark:border-indigo-800 pr-4">
+            <span class="text-xs font-semibold block text-indigo-700 dark:text-indigo-400">القسط الشهري:</span>
+            <span class="text-xl font-black text-indigo-600 dark:text-indigo-300" id="calc-monthly-installment">0 ج.م</span>
           </div>
         </div>
 
