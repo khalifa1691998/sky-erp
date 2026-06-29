@@ -1,13 +1,11 @@
 // firebase-config.js
 // --- إعدادات Firebase ---
-// سيتم وضع مفاتيح الربط هنا لاحقاً بعد إنشاء مشروع Firebase
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getFirestore, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 import { getStorage } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-// استبدل هذا الكود لاحقاً بالكود الخاص بمشروعك
 const firebaseConfig = {
   apiKey: "AIzaSyC0UmVMet6emQSY7ZjlGmAOYlEen_sJn8o",
   authDomain: "sky-erp-89b78.firebaseapp.com",
@@ -18,24 +16,61 @@ const firebaseConfig = {
 };
 
 let app, db, storage, auth;
+let firebaseReady = false;
 
-try {
-  // تفعيل Firebase إذا كانت الإعدادات متوفرة
-  if (Object.keys(firebaseConfig).length > 0) {
+// Initialize Firebase with error handling
+export async function initFirebase() {
+  try {
+    if (!Object.keys(firebaseConfig).length) {
+      console.warn("❌ Firebase config is missing. Running in Local Mode only.");
+      firebaseReady = false;
+      return false;
+    }
+
+    // Initialize Firebase
     app = initializeApp(firebaseConfig);
     db = getFirestore(app);
     storage = getStorage(app);
     auth = getAuth(app);
-    console.log("Firebase initialized successfully");
-  } else {
-    console.warn("Firebase config is missing. App is running in Local Mode only.");
+
+    // Enable offline persistence for Firestore
+    try {
+      await enableIndexedDbPersistence(db);
+      console.log("✅ Firestore offline persistence enabled");
+    } catch (err) {
+      if (err.code === 'failed-precondition') {
+        console.warn("⚠️ Multiple tabs open, offline persistence disabled");
+      } else if (err.code === 'unimplemented') {
+        console.warn("⚠️ Browser doesn't support offline persistence");
+      }
+    }
+
+    console.log("✅ Firebase initialized successfully");
+    firebaseReady = true;
+    
+    // Make available globally
+    window.firebaseApp = app;
+    window.firebaseDB = db;
+    window.firebaseStorage = storage;
+    window.firebaseAuth = auth;
+    window.firebaseReady = true;
+
+    return true;
+  } catch (error) {
+    console.error("❌ Firebase initialization error:", error);
+    firebaseReady = false;
+    window.firebaseReady = false;
+    return false;
   }
-} catch (error) {
-  console.error("Firebase initialization error:", error);
 }
 
-// جعل كائنات Firebase متاحة عالمياً لباقي النظام
-window.firebaseApp = app;
-window.firebaseDB = db;
-window.firebaseStorage = storage;
-window.firebaseAuth = auth;
+// Check if Firebase is ready
+export function isFirebaseReady() {
+  return firebaseReady;
+}
+
+// Get Firebase instances
+export { app, db, storage, auth };
+
+// Initialize on module load
+initFirebase().catch(err => console.error("Failed to initialize Firebase:", err));
