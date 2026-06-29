@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --dark-sidebar: #0f172a;
+  --dark-sidebar-hover: #1e293b;
+  --bg-light: #f8fafc;
+  --font-family: 'Cairo', sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-light);
+  direction: rtl;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Glassmorphism utility */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+}
+
+.glass-sidebar {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Custom animations */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.animate-pulse-warning {
+  animation: pulse-ring 2s infinite;
+}
+
+.tab-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom form inputs style */
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.5rem;
+}
+
+/* Custom status badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.badge-success {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.badge-warning {
+  background-color: #fef9c3;
+  color: #a16207;
+}
+
+.badge-danger {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge-info {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+/* Custom timeline styles */
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  top: 1.25rem;
+  bottom: -1.25rem;
+  right: 1.25rem;
+  width: 2px;
+  background-color: #e2e8f0;
+}
+
+.timeline-item:last-child::after {
+  display: none;
+}
